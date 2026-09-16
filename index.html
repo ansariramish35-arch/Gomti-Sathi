@@ -1,10 +1,125 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My 1M1B Project</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1M1B Project</title>
+    <style>
+        /* Reset & Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header Section */
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            text-align: center;
+            padding: 4rem 1rem;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* Main Container for Desktop & Mobile */
+        .main-container {
+            max-width: 1000px;
+            width: 90%;
+            margin: -2rem auto 3rem auto;
+            background: white;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+
+        /* Responsive Grid for Content */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background: #f1f5f9;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #2a5298;
+        }
+
+        .card h3 {
+            margin-bottom: 0.5rem;
+            color: #0f172a;
+        }
+
+        /* Button */
+        .btn {
+            display: inline-block;
+            background: #2a5298;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background: #1e3c72;
+        }
+
+        /* Desktop view adjustments */
+        @media (min-width: 768px) {
+            header h1 {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to my 1M1B Project</h1>
-    <p>This is where I will build my social innovation site.</p>
+
+    <header>
+        <h1>Welcome to my 1M1B Project</h1>
+        <p>Creating impact through social innovation</p>
+    </header>
+
+    <div class="main-container">
+        <h2>About The Project</h2>
+        <p>This project is part of the 1M1B (1 Million 1 Billion) initiative to create real-world impact.</p>
+
+        <div class="content-grid">
+            <div class="card">
+                <h3>The Problem</h3>
+                <p>Describe the community or social issue your project is addressing here.</p>
+            </div>
+            <div class="card">
+                <h3>Our Solution</h3>
+                <p>Explain how your project solves this problem efficiently.</p>
+            </div>
+        </div>
+
+        <a href="#" class="btn">Learn More</a>
+    </div>
+
 </body>
 </html>
