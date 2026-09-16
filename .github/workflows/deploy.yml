@@ -31,7 +31,10 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build
+      - name: Remove server-only API routes for static GitHub Pages export
+        run: rm -rf src/app/api
+
+      - name: Build static site
         run: npm run build
 
       - name: Upload artifact
