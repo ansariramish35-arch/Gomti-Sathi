@@ -166,7 +166,7 @@ function stationAnswer(st: (typeof STATIONS)[number], q: string, lang: string): 
         ? "fishing"
         : "contact";
 
-  const verdict = cat === "A" || cat === "B" ? "safe" : cat === "C" ? "caution" : "avoid";
+  const verdict: Verdict = cat === "C" ? "caution" : "avoid";
 
   const lead =
     lang === "hi"
