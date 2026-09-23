@@ -1,26 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { Fraunces, Manrope, Noto_Sans_Devanagari } from "next/font/google";
 import "./globals.css";
-
-const fraunces = Fraunces({
-  subsets: ["latin"],
-  variable: "--font-fraunces",
-  display: "swap",
-});
-
-const manrope = Manrope({
-  subsets: ["latin"],
-  variable: "--font-manrope",
-  display: "swap",
-});
-
-const devanagari = Noto_Sans_Devanagari({
-  subsets: ["devanagari"],
-  weight: ["500", "700"],
-  variable: "--font-devanagari",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: "Gomti Saathi — AI for Gomti River Water Quality",
@@ -30,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className={`${fraunces.variable} ${manrope.variable} ${devanagari.variable}`}>
+    <html lang="en">
       <body>{children}</body>
     </html>
   );
