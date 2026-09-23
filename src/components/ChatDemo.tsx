@@ -5,6 +5,7 @@ import type { FormEvent } from "react";
 import { VerdictPill } from "@/components/primitives";
 import { IconBook, IconRefresh, IconSend, IconWaves, IconX } from "@/components/icons";
 import type { SourceRef, Verdict } from "@/lib/saathi";
+import { answerQuestionClient, KB_ENTRIES, type ClientKbEntry } from "@/lib/saathi-client";
 
 interface ChatMsg {
   id: string;
@@ -14,14 +15,7 @@ interface ChatMsg {
   sources?: SourceRef[];
 }
 
-interface KbEntry {
-  id: number;
-  kind: string;
-  title: string;
-  station: string | null;
-  category: string | null;
-  monthLabel: string | null;
-}
+type KbEntry = ClientKbEntry;
 
 const SUGGESTIONS = [
   "Can we bathe near Gaughat?",
@@ -50,35 +44,12 @@ export function ChatDemo({ open, onClose }: { open: boolean; onClose: () => void
   const [hydrated, setHydrated] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  /* Hydrate history + knowledge base when opened */
+  /* Load the local static knowledge base when opened. GitHub Pages has no server API. */
   useEffect(() => {
     if (!open || hydrated) return;
-    const session = getSession();
-    fetch(`/api/chat?sessionId=${encodeURIComponent(session)}`)
-      .then((r) => r.json())
-      .then((data) => {
-        const rows = (data.messages ?? []) as Array<{
-          id: number;
-          role: string;
-          content: string;
-          sources: unknown;
-        }>;
-        setMessages(
-          rows.map((m) => ({
-            id: String(m.id),
-            role: m.role === "user" ? "user" : "assistant",
-            content: m.content,
-            sources: Array.isArray(m.sources) ? (m.sources as SourceRef[]) : undefined,
-          }))
-        );
-      })
-      .catch(() => undefined)
-      .finally(() => setHydrated(true));
-
-    fetch("/api/knowledge")
-      .then((r) => r.json())
-      .then((data) => setKb({ total: data.total ?? 0, chunks: data.chunks ?? [] }))
-      .catch(() => undefined);
+    setMessages([]);
+    setKb({ total: KB_ENTRIES.length, chunks: KB_ENTRIES });
+    setHydrated(true);
   }, [open, hydrated]);
 
   /* Autoscroll */
@@ -93,20 +64,10 @@ export function ChatDemo({ open, onClose }: { open: boolean; onClose: () => void
     setBusy(true);
     const tempId = `u-${Date.now()}`;
     setMessages((m) => [...m, { id: tempId, role: "user", content: message }]);
+
     try {
-      const res = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sessionId: getSession(), message }),
-      });
-      const data = await res.json();
-      const answer = data.answer as {
-        text: string;
-        verdict: Verdict;
-        sources?: SourceRef[];
-        station?: string;
-        monthLabel?: string;
-      };
+      await new Promise((resolve) => setTimeout(resolve, 280));
+      const answer = answerQuestionClient(message);
       setMessages((m) => [
         ...m,
         {
@@ -123,8 +84,7 @@ export function ChatDemo({ open, onClose }: { open: boolean; onClose: () => void
         {
           id: `a-${Date.now()}`,
           role: "assistant",
-          content:
-            "Sorry — I could not reach the demo server just now. Please try again in a moment.",
+          content: "Sorry — the local demo could not generate an answer.",
           verdict: "info",
         },
       ]);
